@@ -1,0 +1,85 @@
+openapi: 3.0.1
+
+info:
+  title: KG RAG FMEA API
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:8080/api/v1
+
+tags:
+  - name: KG RAG FMEA
+
+paths:
+  /create-fmea-graph:
+    post:
+      summary: Create FMEA graph from CSV path
+      operationId: kg_rag.create_graph
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Path'
+        required: true
+      responses:
+        200:
+          description: OK
+
+  /question-answer:
+    post:
+      summary: Run question answering
+      operationId: kg_rag.answer_question
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+                  
+
+  /set-top_k:
+    post:
+      summary: Set top_k for number for query results
+      operationId: kg_rag.set_top_k
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/K'
+        required: true
+      responses:
+        200:
+          description: OK
+
+components:
+  schemas:
+    Path:
+      type: object
+      properties:
+        path:
+          type: string
+    Answer:
+      type: object
+      properties:
+        answer:
+          type: string
+        context:
+          type: string
+    Question:
+      type: object
+      properties:
+        question:
+          type: string
+    K:
+      type: object
+      properties:
+        top_k:
+          type: number
+        

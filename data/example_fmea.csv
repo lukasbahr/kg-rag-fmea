@@ -1,0 +1,16 @@
+ID;ProcessStep;FailureConsequence;B;FailureEffect;FailureCause;FailureMeasure;A;DetectionMeasure;E;RPZ
+1;Component alignment verification;Increased rework;4;Components misaligned;Incorrect jig setup;Quality inspection;5;Vision system alert;2;40
+2;Soldering process monitoring;Delay in production;3;Cold solder joint;Soldering temperature too low;Adjust soldering parameters;4;In-line AOI;4;48
+3;Circuit testing;Product malfunction;6;Open circuit;Component not placed;Visual inspection;3;Electrical test pass;3;54
+4;Packaging verification;Customer complaints;2;Incorrect labeling;Label printer error;Reprint label;5;Barcode scanner check;1;10
+5;Material handling;Increased cycle time;4;Incorrect material loaded;Human error;Training and SOPs;4;RFID material tracking;3;48
+6;Final assembly check;Safety risk;7;Missing safety features;Assembly oversight;Quality control checklist;6;Final inspection;1;42
+7;Software programming;System crash;5;Firmware corruption;Programming error;Code review process;3;Automated test suite;2;30
+8;Calibration process;Inaccurate readings;3;Sensor drift;Environmental factors;Calibration at set intervals;4;Calibration verification;3;36
+9;Leak testing;Leakage;5;Seal integrity compromised;Improper sealant application;Retest and reseal;5;Pressure decay test;2;50
+10;Wire harness routing;Electrical short;4;Wires pinched;Incorrect routing;Wiring diagram;5;Continuity check;3;60
+11;Painting operation;Defective finish;3;Runs and sags;Inadequate surface prep;Repaint affected area;4;Visual inspection;2;24
+12;Battery charging;Reduced battery life;4;Undercharged battery;Charger malfunction;Regular maintenance;4;Voltage and current check;3;48
+13;Cooling system test;Overheating;5;Insufficient cooling;Blocked airflow;Clean and test system;5;Thermal imaging;2;50
+14;Quality record keeping;Non-compliance;2;Missing documentation;Clerical error;Audit trail system;5;Document review;3;30
+15;Inventory counting;Stock discrepancies;3;Incorrect stock count;Miscounting;Cycle counting;4;System inventory reconciliation;2;24
