@@ -15,3 +15,6 @@ build/
 
 # Environment
 .env
+
+# Ruff
+.ruff_cache

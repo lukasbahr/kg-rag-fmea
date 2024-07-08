@@ -289,7 +289,7 @@ class KGRAGService(Neo4JRepository):
         try:
             self.query(cypher)
             return True
-        except Exception as e:
+        except Exception:
             return False
 
     def get_failure_effect_ids(self) -> list[dict]:
@@ -421,7 +421,7 @@ class KGRAGService(Neo4JRepository):
 
             try:
                 self.query(query)
-            except Exception as e:
+            except Exception:
                 return False
 
         # Create vector embeddings
