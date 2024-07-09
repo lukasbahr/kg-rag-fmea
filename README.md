@@ -4,22 +4,7 @@ This repository contains the code, datasets, and additional resources for the re
 
 ## Abstract
 
-Failure mode and effects analysis (FMEA) is a critical tool for mitigating poten-
-tial failures, particular during ramp-up phases of new products. However, its
-effectiveness is often limited by the missing reasoning capabilities of the FMEA
-tools, which are usually tabular structured. Meanwhile, large language models
-(LLMs) offer novel prospects for fine-tuning on custom datasets for reasoning
-within FMEA contexts. However, LLMs face challenges in tasks that require fac-
-tual knowledge, a gap that retrieval-augmented generation (RAG) approaches
-aim to fill. RAG retrieves information from a non-parametric data store and
-uses a language model to generate responses. Building on this idea, we propose
-to advance the non-parametric data store with a knowledge graph (KG). By
-enhancing the RAG framework with a KG, our objective is to leverage analyt-
-ical and semantic question-answering capabilities on FMEA data. This paper
-contributes by presenting a new ontology for FMEA observations, an algorithm
-for creating vector embeddings from the FMEA KG, and a KG enhanced RAG
-framework. Our approach is validated through a human study and we measure
-the performance of the context retrieval recall and precision.
+Failure mode and effects analysis (FMEA) is a critical tool for mitigating potential failures, particular during ramp-up phases of new products. However, its effectiveness is often limited by the missing reasoning capabilities of the FMEA tools, which are usually tabular structured. Meanwhile, large language models (LLMs) offer novel prospects for fine-tuning on custom datasets for reasoning within FMEA contexts. However, LLMs face challenges in tasks that require factual knowledge, a gap that retrieval-augmented generation (RAG) approaches aim to fill. RAG retrieves information from a non-parametric data store and uses a language model to generate responses. Building on this idea, we propose to advance the non-parametric data store with a knowledge graph (KG). By enhancing the RAG framework with a KG, our objective is to leverage analytical and semantic question-answering capabilities on FMEA data. This paper contributes by presenting a new ontology for FMEA observations, an algorithm for creating vector embeddings from the FMEA KG, and a KG enhanced RAG framework. Our approach is validated through a human study and we measure the performance of the context retrieval recall and precision.
 
 ## Citation
 
