@@ -66,7 +66,7 @@ Please feel free to contact one of the authors in case you wish to contribute.
 
 ## License
 
-This project is licensed under the [MIT License] - see the [MIT License](https://github.com/lukasbahr/kg-rag-fmea/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [MIT License](https://github.com/lukasbahr/kg-rag-fmea/blob/main/LICENSE) file for details.
 
 ## Contact Information
 
