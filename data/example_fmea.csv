@@ -1,16 +1,16 @@
-ID;ProcessStep;FailureConsequence;B;FailureEffect;FailureCause;FailureMeasure;A;DetectionMeasure;E;RPZ
-1;Component alignment verification;Increased rework;4;Components misaligned;Incorrect jig setup;Quality inspection;5;Vision system alert;2;40
-2;Soldering process monitoring;Delay in production;3;Cold solder joint;Soldering temperature too low;Adjust soldering parameters;4;In-line AOI;4;48
-3;Circuit testing;Product malfunction;6;Open circuit;Component not placed;Visual inspection;3;Electrical test pass;3;54
-4;Packaging verification;Customer complaints;2;Incorrect labeling;Label printer error;Reprint label;5;Barcode scanner check;1;10
-5;Material handling;Increased cycle time;4;Incorrect material loaded;Human error;Training and SOPs;4;RFID material tracking;3;48
-6;Final assembly check;Safety risk;7;Missing safety features;Assembly oversight;Quality control checklist;6;Final inspection;1;42
-7;Software programming;System crash;5;Firmware corruption;Programming error;Code review process;3;Automated test suite;2;30
-8;Calibration process;Inaccurate readings;3;Sensor drift;Environmental factors;Calibration at set intervals;4;Calibration verification;3;36
-9;Leak testing;Leakage;5;Seal integrity compromised;Improper sealant application;Retest and reseal;5;Pressure decay test;2;50
-10;Wire harness routing;Electrical short;4;Wires pinched;Incorrect routing;Wiring diagram;5;Continuity check;3;60
-11;Painting operation;Defective finish;3;Runs and sags;Inadequate surface prep;Repaint affected area;4;Visual inspection;2;24
-12;Battery charging;Reduced battery life;4;Undercharged battery;Charger malfunction;Regular maintenance;4;Voltage and current check;3;48
-13;Cooling system test;Overheating;5;Insufficient cooling;Blocked airflow;Clean and test system;5;Thermal imaging;2;50
-14;Quality record keeping;Non-compliance;2;Missing documentation;Clerical error;Audit trail system;5;Document review;3;30
-15;Inventory counting;Stock discrepancies;3;Incorrect stock count;Miscounting;Cycle counting;4;System inventory reconciliation;2;24
+ID;ProcessStep;RPN;FailureMode;S;FailureEffect;O;FailureCause;D;FailureMeasure;DetectionMeasure
+10;Wire harness routing;60;Electrical short;4;Wires pinched;5;Incorrect routing;3;Wiring diagram;Continuity check
+3;Circuit testing;54;Product malfunction;6;Open circuit;3;Component not placed;3;Visual inspection;Electrical test pass
+9;Leak testing;50;Leakage;5;Seal integrity compromised;5;Improper sealant application;2;Retest and reseal;Pressure decay test
+13;Cooling system test;50;Overheating;5;Insufficient cooling;5;Blocked airflow;2;Clean and test system;Thermal imaging
+2;Soldering process monitoring;48;Delay in production;3;Cold solder joint;4;Soldering temperature too low;4;Adjust soldering parameters;In-line AOI
+5;Material handling;48;Increased cycle time;4;Incorrect material loaded;4;Human error;3;Training and SOPs;RFID material tracking
+12;Battery charging;48;Reduced battery life;4;Undercharged battery;4;Charger malfunction;3;Regular maintenance;Voltage and current check
+6;Final assembly check;42;Safety risk;7;Missing safety features;6;Assembly oversight;1;Quality control checklist;Final inspection
+1;Component alignment verification;40;Increased rework;4;Components misaligned;5;Incorrect jig setup;2;Quality inspection;Vision system alert
+8;Calibration process;36;Inaccurate readings;3;Sensor drift;4;Environmental factors;3;Calibration at set intervals;Calibration verification
+7;Software programming;30;System crash;5;Firmware corruption;3;Programming error;2;Code review process;Automated test suite
+14;Quality record keeping;30;Non-compliance;2;Missing documentation;5;Clerical error;3;Audit trail system;Document review
+11;Painting operation;24;Defective finish;3;Runs and sags;4;Inadequate surface prep;2;Repaint affected area;Visual inspection
+15;Inventory counting;24;Stock discrepancies;3;Incorrect stock count;4;Miscounting;2;Cycle counting;System inventory reconciliation
+4;Packaging verification;10;Customer complaints;2;Incorrect labeling;5;Label printer error;1;Reprint label;Barcode scanner check

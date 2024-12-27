@@ -37,12 +37,18 @@ MERGE_RELATION_QUERY = "MERGE ({nodeRef1})-[:{relation}]->({nodeRef2})"
 
 MATCH_QUERY = "MATCH ({nodeRef}:{node} {properties})"
 
+# FailureMode: fd
+# FailureEffect: fe
+# FailureCause: fc
+# FailureMeasure: fm
+# ProcessStep: ps
+
 TRAVERSE_QUERY = """
-MATCH (fm:FailureMeasure)<-[:isImprovedByFailureMeasure]-(fc:FailureCause)<-[:isDueToFailureCause]-(fe:FailureEffect)-[:occursAtProcessStep]->(ps:ProcessStep)
-WITH fm, fc, fe, ps
-MATCH (fe)-[:resultsInFailureConsequence]->(fco:FailureConsequence)
-WHERE ID(fe)={id}
-RETURN fm, fc, fe, fco, ps, ID(fm), ID(fc), ID(fe), ID(fco), ID(ps);
+MATCH (fm:FailureMeasure)<-[:isImprovedByFailureMeasure]-(fc:FailureCause)<-[:isDueToFailureCause]-(fd:FailureMode)-[:occursAtProcessStep]->(ps:ProcessStep)
+WITH fm, fc, fd, ps
+MATCH (fd)-[:resultsInFailureEffect]->(fe:FailureEffect)
+WHERE ID(fd)={id}
+RETURN fm, fc, fe, fd, ps, ID(fm), ID(fc), ID(fe), ID(fd), ID(ps);
 """
 
 # TEMPLATES INFERENCES JOBS
@@ -254,7 +260,7 @@ class KGRAGService(Neo4JRepository):
             str: The generated text.
         """
         return openai.ChatCompletion.create(
-            engine="gpt-4",
+            engine="gpt-4o",
             messages=context,
             temperature=temperature,
             max_tokens=max_tokens,
@@ -292,7 +298,7 @@ class KGRAGService(Neo4JRepository):
         except Exception:
             return False
 
-    def get_failure_effect_ids(self) -> list[dict]:
+    def get_failure_mode_ids(self) -> list[dict]:
         """
         Get all failure effect ids.
 
@@ -302,8 +308,8 @@ class KGRAGService(Neo4JRepository):
         try:
             result = self.query(
                 """
-                    MATCH (fe:FailureEffect)
-                    RETURN ID(fe);
+                    MATCH (fd:FailureMode)
+                    RETURN ID(fd);
                     """
             )
             return result
@@ -345,20 +351,20 @@ class KGRAGService(Neo4JRepository):
         for _, row in df.iterrows():
             nodes = [
                 MERGE_NODE_QUERY.format(
-                    nodeRef="ProcessStep",
-                    node="ProcessStep",
+                    nodeRef="FailureMode",
+                    node="FailureMode",
                     properties=self.format_properties(
-                        {"Prozessschritt": row["ProcessStep"]}
+                        {
+                            "FailureMode": row["FailureMode"],
+                            "RPN": row["RPN"],
+                        }
                     ),
                 ),
                 MERGE_NODE_QUERY.format(
-                    nodeRef="FailureConsequence",
-                    node="FailureConsequence",
+                    nodeRef="ProcessStep",
+                    node="ProcessStep",
                     properties=self.format_properties(
-                        {
-                            "Fehlerfolge": row["FailureConsequence"],
-                            "B": row["B"],
-                        }
+                        {"ProcessStep": row["ProcessStep"]}
                     ),
                 ),
                 MERGE_NODE_QUERY.format(
@@ -366,8 +372,8 @@ class KGRAGService(Neo4JRepository):
                     node="FailureEffect",
                     properties=self.format_properties(
                         {
-                            "Fehlerart": row["FailureEffect"],
-                            "RPZ": row["RPZ"],
+                            "FailureEffect": row["FailureEffect"],
+                            "S": row["S"],
                         }
                     ),
                 ),
@@ -376,8 +382,8 @@ class KGRAGService(Neo4JRepository):
                     node="FailureCause",
                     properties=self.format_properties(
                         {
-                            "Fehlerursache": row["FailureCause"],
-                            "A": row["A"],
+                            "FailureCause": row["FailureCause"],
+                            "O": row["O"],
                         }
                     ),
                 ),
@@ -386,9 +392,9 @@ class KGRAGService(Neo4JRepository):
                     node="FailureMeasure",
                     properties=self.format_properties(
                         {
-                            "Vermeidungsmassnahme": row["FailureMeasure"],
-                            "Entdeckungsmassnahme": row["DetectionMeasure"],
-                            "E": row["E"],
+                            "FailureMeasure": row["FailureMeasure"],
+                            "DetectionMeasure": row["DetectionMeasure"],
+                            "D": row["D"],
                         }
                     ),
                 ),
@@ -396,17 +402,17 @@ class KGRAGService(Neo4JRepository):
 
             relations = [
                 MERGE_RELATION_QUERY.format(
-                    nodeRef1="FailureEffect",
+                    nodeRef1="FailureMode",
                     relation="occursAtProcessStep",
                     nodeRef2="ProcessStep",
                 ),
                 MERGE_RELATION_QUERY.format(
-                    nodeRef1="FailureEffect",
-                    relation="resultsInFailureConsequence",
-                    nodeRef2="FailureConsequence",
+                    nodeRef1="FailureMode",
+                    relation="resultsInFailureEffect",
+                    nodeRef2="FailureEffect",
                 ),
                 MERGE_RELATION_QUERY.format(
-                    nodeRef1="FailureEffect",
+                    nodeRef1="FailureMode",
                     relation="isDueToFailureCause",
                     nodeRef2="FailureCause",
                 ),
@@ -436,10 +442,8 @@ class KGRAGService(Neo4JRepository):
         Returns:
             bool: True if the vector embeddings were created successfully, False otherwise.
         """
-        # Get all failure measure ids
-        # failureMeasureIds = self.get_failure_measure_ids()
-
-        failureEffectIds = self.get_failure_effect_ids()
+        # Get all failure mode ids
+        failureModeIds = self.get_failure_mode_ids()
 
         # Check if the index already exists
         embedding_dimension = self.retrieve_existing_index()
@@ -449,8 +453,8 @@ class KGRAGService(Neo4JRepository):
             self.create_new_index()
 
         # Add the failure measures to the index
-        for entry in failureEffectIds:
-            id = entry["ID(fe)"]
+        for entry in failureModeIds:
+            id = entry["ID(fd)"]
             nodes = self.traverse_graph(str(id))
             chunk, nodeIds = self.create_chunk(nodes)
 
@@ -464,13 +468,13 @@ class KGRAGService(Neo4JRepository):
                 ),
                 "WITH index ",
                 MATCH_QUERY.format(
-                    nodeRef="fe",
-                    node="FailureEffect",
+                    nodeRef="fd",
+                    node="FailureMode",
                     properties=self.format_properties({}),
                 ),
-                "WHERE ID(fe)={id}".format(id=id),
+                "WHERE ID(fd)={id}".format(id=id),
                 MERGE_RELATION_QUERY.format(
-                    nodeRef1="fe",
+                    nodeRef1="fd",
                     relation="isIndexed",
                     nodeRef2="index",
                 ),
@@ -493,13 +497,13 @@ class KGRAGService(Neo4JRepository):
         Returns:
             str: The chunk.
         """
-        fm, fc, fe, fco, ps = [[] for _ in range(5)]
+        fm, fc, fe, fd, ps = [[] for _ in range(5)]
 
         nodeIds = {
-            "failureMeasureIds": [],
-            "failureCauseIds": [],
+            "failureModeIds": [],
             "failureEffectIds": [],
-            "failureConsequenceIds": [],
+            "failureCauseIds": [],
+            "failureMeasureIds": [],
             "processStepIds": [],
         }
 
@@ -513,33 +517,34 @@ class KGRAGService(Neo4JRepository):
             if node["fe"] not in fe:
                 fe.append(node["fe"])
                 nodeIds["failureEffectIds"].append(node["ID(fe)"])
-            if node["fco"] not in fco:
-                fco.append(node["fco"])
-                nodeIds["failureConsequenceIds"].append(node["ID(fco)"])
+            if node["fd"] not in fd:
+                fd.append(node["fd"])
+                nodeIds["failureModeIds"].append(node["ID(fd)"])
             if node["ps"] not in ps:
                 ps.append(node["ps"])
                 nodeIds["processStepIds"].append(node["ID(ps)"])
 
         chunk = (
-            ", ".join("Prozessschritt: " + i["Prozessschritt"] for i in ps)
+            ", ".join("ProcessStep: " + i["ProcessStep"] for i in ps)
             + "".join(
-                ", Fehlerfolge: " + i["Fehlerfolge"] + ", B: " + str(i["B"])
-                for i in fco
+                ", FailureMode: " + i["FailureMode"] + ", RPN: " + str(i["RPN"])
+                for i in fd
             )
             + "".join(
-                ", Fehlerart: " + i["Fehlerart"] + ", RPZ: " + str(i["RPZ"]) for i in fe
+                ", FailureEffect: " + i["FailureEffect"] + ", S: " + str(i["S"])
+                for i in fe
             )
             + "".join(
-                ", Fehlerursache: " + i["Fehlerursache"] + ", A: " + str(i["A"])
+                ", FailureCause: " + i["FailureCause"] + ", O: " + str(i["O"])
                 for i in fc
             )
             + "".join(
-                ", Vermeidungsmassnahme: "
-                + i["Vermeidungsmassnahme"]
-                + ", Entdeckungsmassnahme: "
-                + i["Entdeckungsmassnahme"]
-                + ", E: "
-                + str(i["E"])
+                ", FailureMeasure: "
+                + i["FailureMeasure"]
+                + ", DetectionMeasure: "
+                + i["DetectionMeasure"]
+                + ", D: "
+                + str(i["D"])
                 for i in fm
             )
         )
