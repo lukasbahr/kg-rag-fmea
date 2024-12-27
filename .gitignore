@@ -18,3 +18,5 @@ build/
 
 # Ruff
 .ruff_cache
+
+rest_api.http
