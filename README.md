@@ -1,10 +1,15 @@
-# Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysisy
+# Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis
 
-This repository contains the code, datasets, and additional resources for the research paper titled "Title of Your Research Paper," which is currently published as preprint in arXive. Here, we provide all the necessary information and resources to reproduce the results presented in our paper.
+This repository contains the code, datasets, and additional resources for the research paper titled "Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis," which is currently published as a preprint on arXiv. Here, we provide all the necessary information and resources to reproduce the results presented in our paper.
 
 ## Abstract
 
-Failure mode and effects analysis (FMEA) is a critical tool for mitigating potential failures, particular during ramp-up phases of new products. However, its effectiveness is often limited by the missing reasoning capabilities of the FMEA tools, which are usually tabular structured. Meanwhile, large language models (LLMs) offer novel prospects for fine-tuning on custom datasets for reasoning within FMEA contexts. However, LLMs face challenges in tasks that require factual knowledge, a gap that retrieval-augmented generation (RAG) approaches aim to fill. RAG retrieves information from a non-parametric data store and uses a language model to generate responses. Building on this idea, we propose to advance the non-parametric data store with a knowledge graph (KG). By enhancing the RAG framework with a KG, our objective is to leverage analytical and semantic question-answering capabilities on FMEA data. This paper contributes by presenting a new ontology for FMEA observations, an algorithm for creating vector embeddings from the FMEA KG, and a KG enhanced RAG framework. Our approach is validated through a human study and we measure the performance of the context retrieval recall and precision.
+Failure mode and effects analysis (FMEA) is an essential tool for mitigating potential failures, particularly during the ramp-up phases of new products. However, its effectiveness is often limited by the reasoning capabilities of the FMEA tools, which are usually tabular structured.
+Meanwhile, large language models (LLMs) offer novel prospects for advanced natural language processing tasks. However, LLMs face challenges in tasks that require factual knowledge, a gap that retrieval-augmented generation (RAG) approaches aim to fill. RAG retrieves information from a non-parametric data store and uses a language model to generate responses.
+Building on this concept, we propose to enhance the non-parametric data store with a knowledge graph (KG).
+By integrating a KG into the RAG framework, we aim to leverage analytical and semantic question-answering capabilities for FMEA data.
+This paper contributes by presenting set-theoretic standardization and a schema for FMEA data, a chunking algorithm for creating vector embeddings from the FMEA-KG, and a KG-enhanced RAG framework.
+Our approach is validated through a user experience design study, and we measure the precision and performance of the context retrieval recall.
 
 ## Citation
 
@@ -26,10 +31,9 @@ If you find this work useful for your research, please cite our paper:
 
 ```
 ├── code/                   # All the code files used in the research
-├── data/                   # Example FMEA (csv)
+├── data/                   # Example FMEA (as csv)
 ├── .env_default            # Default environment variables
 ├── .gitignore              # The gitignore file
-├── docker-compose.yml      # Neo4j Docker Compose file
 ├── requirements.txt        # The requirements file 
 ├── LICENSE                 # The license file
 └── README.md               # The README file (this file)
@@ -37,14 +41,17 @@ If you find this work useful for your research, please cite our paper:
 
 ## Setup and Installation
 
-Instructions for setting up the environment and installing required dependencies.
-
+Clone the repository and install the required packages:
+1. Clone the repository and install the required Python packages
 ```bash
 # Example setup commands
 git clone https://github.com/lukasbahr/kg-rag-fmea.git
 cd kg-rag-fmea
 pip install -r requirements.txt
 ```
+2. Ensure you have a Neo4j [instance](https://neo4j.com/product/neo4j-graph-database/) up and running. You can set it up locally or use a cloud solution.
+3. Set up a GPT-4 instance. You can get access to GPT-4 via [OpenAI](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4-gpt-4-turbo-gpt-4o-and-gpt-4o-mini) or [Azure](https://azure.microsoft.com/de-de/products/ai-services/openai-service).
+4. Configure the environment variables. Rename the .env_default file to .env and fill in the details for your Neo4j instance and GPT-4 API connection.
 
 ## Usage
 
@@ -55,10 +62,42 @@ Instructions on how to start the backend service.
 python code/kg_rag.py
 ```
 
+Example http request to the backend service.
+
+```
+@baseUrl = http://localhost:8080/api/v1
+
+### Create FMEA graph from CSV path
+POST {{baseUrl}}/create-fmea-graph
+Content-Type: application/json
+
+{
+  "path": "example_fmea.csv"
+}
+
+### Run question answering
+POST {{baseUrl}}/question-answer
+Content-Type: application/json
+
+{
+  "question": "What failure mode has the highest RPN?"
+}
+
+### Set top_k for number of query results
+POST {{baseUrl}}/set-top_k
+Content-Type: application/json
+
+{
+  "top_k": 5
+}
+```
+
 ## Additional Resources
 
 - [Link to preprint](https://arxiv.org/abs/2406.18114)
 - [Neo4j](https://neo4j.com/)
+- [OpenAI](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4-gpt-4-turbo-gpt-4o-and-gpt-4o-mini)
+- [Azure](https://azure.microsoft.com/de-de/products/ai-services/openai-service)
 
 ## Contributing
 

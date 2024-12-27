@@ -174,7 +174,7 @@ class KGRAGService(Neo4JRepository):
 
         for key, value in properties.items():
             properties_str += f'{key}: "{value}",'
-            if key == "A" or key == "B" or key == "E" or key == "RPZ":
+            if key == "S" or key == "O" or key == "D" or key == "RPN":
                 properties_str += f"{key}: {value},"
 
         properties_str = properties_str.strip(",") + "}"
