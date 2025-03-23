@@ -1,6 +1,6 @@
 # Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis
 
-This repository contains the code, datasets, and additional resources for the research paper titled "Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis," which is currently published as a preprint on arXiv. Here, we provide all the necessary information and resources to reproduce the results presented in our paper.
+This repository contains the code, datasets, and additional resources for the research paper titled "Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis". Here, we provide all the necessary information and resources to reproduce the results presented in our paper. DOI: [https://doi.org/10.1016/j.jii.2025.100807](https://doi.org/10.1016/j.jii.2025.100807).
 
 ## Abstract
 
@@ -8,7 +8,7 @@ Failure mode and effects analysis (FMEA) is an essential tool for mitigating pot
 Meanwhile, large language models (LLMs) offer novel prospects for advanced natural language processing tasks. However, LLMs face challenges in tasks that require factual knowledge, a gap that retrieval-augmented generation (RAG) approaches aim to fill. RAG retrieves information from a non-parametric data store and uses a language model to generate responses.
 Building on this concept, we propose to enhance the non-parametric data store with a knowledge graph (KG).
 By integrating a KG into the RAG framework, we aim to leverage analytical and semantic question-answering capabilities for FMEA data.
-This paper contributes by presenting set-theoretic standardization and a schema for FMEA data, a chunking algorithm for creating vector embeddings from the FMEA-KG, and a KG-enhanced RAG framework.
+This paper contributes by presenting set-theoretic standardization and a schema for FMEA data, an algorithm for creating vector embeddings from the FMEA-KG, and a KG-enhanced RAG framework.
 Our approach is validated through a user experience design study, and we measure the precision and performance of the context retrieval recall.
 
 ## Citation
@@ -16,14 +16,17 @@ Our approach is validated through a user experience design study, and we measure
 If you find this work useful for your research, please cite our paper:
 
 ```
-@misc{bahr2024knowledgegraphenhancedretrievalaugmented,
-      title={Knowledge Graph Enhanced Retrieval-Augmented Generation for Failure Mode and Effects Analysis}, 
-      author={Lukas Bahr and Christoph Wehner and Judith Wewerka and José Bittencourt and Ute Schmid and Rüdiger Daub},
-      year={2024},
-      eprint={2406.18114},
-      archivePrefix={arXiv},
-      primaryClass={cs.IR},
-      url={https://arxiv.org/abs/2406.18114}, 
+@article{BAHR2025100807,
+title = {Knowledge graph enhanced retrieval-augmented generation for failure mode and effects analysis},
+journal = {Journal of Industrial Information Integration},
+volume = {45},
+pages = {100807},
+year = {2025},
+issn = {2452-414X},
+doi = {https://doi.org/10.1016/j.jii.2025.100807},
+url = {https://www.sciencedirect.com/science/article/pii/S2452414X25000317},
+author = {Lukas Bahr and Christoph Wehner and Judith Wewerka and José Bittencourt and Ute Schmid and Rüdiger Daub},
+keywords = {FMEA, Risk assessment, Knowledge graph, Retrieval-augmented generation, Large language models},
 }
 ```
 
